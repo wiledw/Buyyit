@@ -1,0 +1,63 @@
+/* Modern and Stylish Navbar Styling */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(to right, #0072ff, #00c6ff); /* Stylish gradient background */
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between; /* This will space out your links nicely */
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle shadow for depth */
+  z-index: 1000;
+  transition: background 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 4px; /* Rounded corners for the links */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions for hover effects */
+}
+
+.navbar a:hover, .navbar a:focus {
+  background-color: rgba(255, 255, 255, 0.2); /* Subtle hover/focus effect */
+  color: #fff;
+}
+
+/* For mobile and smaller screens */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 20px 10px;
+  }
+
+  .navbar a {
+    margin-top: 10px;
+  }
+
+  .navbar a:first-child {
+    margin-top: 0;
+  }
+}
+
+.nav-items {
+  margin-left: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-grow: 1; /* Makes .nav-items take up available space, pushing .navbar-user to the right */
+}
+
+.navbar-user {
+  margin-right: 40px; /* Ensures .navbar-user is pushed to the right */
+  display: flex;
+}
+
+/* Space items with some margin */
+.nav-item {
+  margin: 0 10px;
+}
+

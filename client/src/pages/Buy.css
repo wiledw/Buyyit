@@ -1,0 +1,100 @@
+ /* Assuming you want to make the entire content container flex */
+ .content-container {
+    display: grid;
+  }
+  
+/* Apply flexbox to the search-filters container */
+.search-filters {
+    display: flex;
+    align-items: center; /* Aligns items vertically */
+    justify-content: flex-start; /* Aligns items horizontally to the start */
+    padding: 10px; /* Add padding as needed */
+    margin-top: 10px; /* Adjust according to your navbar's height */
+  }
+  
+  /* Style for each search input and select */
+  .search-filters input,
+  .search-filters select {
+    margin-right: 10px; /* Adjust space between the inputs */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Additional styles to ensure the search button is aligned */
+  .search-filters button {
+    padding: 10px 16px; /* Match the vertical padding of the inputs */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .search-filters button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* If you have a navbar with a specific class or ID, you can add space below it */
+  .navbar-class { /* Replace with your actual navbar class or ID */
+    margin-bottom: 20px; /* Or the height of your navbar to push the content down */
+  }
+  
+ 
+  
+  .ads-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Evenly distribute space around items */
+    padding: 20px;
+    gap: 20px; /* Adds space between the posts */
+  }
+  
+  .ad {
+    border: 1px solid #ccc; /* Adds a slight border around each ad */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Soft shadow for depth */
+    border-radius: 10px; /* Rounded corners for a modern look */
+    width: calc(33.333% - 20px); /* Three items per row with gap considered */
+    padding: 20px;
+    background-color: #f9f9f9; /* Light grey background */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items for a tidy look */
+    overflow: hidden; /* Ensures nothing spills out of the card */
+  }
+  
+  .ad h3 {
+    color: #333; /* Darker text for the title */
+    font-size: 1.25rem; /* Slightly larger font size for titles */
+    margin: 0 0 10px 0; /* Add space below the title */
+  }
+  
+  .ad p {
+    color: #666; /* Lighter text for the details */
+    margin: 4px 0; /* Tighter spacing between paragraphs */
+    text-align: center; /* Center-aligns the text */
+    font-size: 0.9rem; /* Slightly smaller font for details */
+    width: 100%; /* Ensures text alignment takes the full width */
+  }
+  
+  .ad img {
+    width: 80px; /* Fixed width for images */
+    height: 80px; /* Fixed height for images */
+    object-fit: cover; /* Ensures the images cover the area well */
+    border-radius: 5px; /* Slightly rounded corners for the images */
+    margin-bottom: 10px; /* Adds space below the image */
+  }
+  
+  @media (max-width: 768px) {
+    .ad {
+      width: calc(50% - 20px); /* Adjusts to two items per row on smaller screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ad {
+      width: 100%; /* Full width for very small screens */
+    }
+  }
+  
+  

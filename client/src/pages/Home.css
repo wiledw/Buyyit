@@ -1,0 +1,112 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Full width of the viewport */
+    padding: 60px 0; /* Padding to account for the navbar, adjust as needed */
+    box-sizing: border-box;
+  }
+  
+  #chatbox {
+    width: 100%; /* Make chatbox take full width of its container */
+    max-width: 800px; /* Maximum width of chatbox */
+    height: auto; /* Height to be determined by content */
+    display: flex;
+    flex-direction: column;
+    margin: auto; /* Center chatbox horizontally */
+  }
+  
+  #chat-container {
+    width: 100%; /* Full width of chatbox */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #message-container {
+    padding: 20px;
+    background-color: #ffffff;
+    height: calc(100vh - 400px); /* Adjust height calculation as needed */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Aligns children at the start (top) of the container */
+    align-items: flex-start; /* Aligns children to the start (left) side of the container for other-message */
+    width: 90%;
+  }
+  
+  .message {
+    display: block;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    word-break: break-word;
+  }
+  
+  .own-message {
+    align-self: flex-end;
+    background-color: #59a51f;
+    color: white;
+  }
+  
+  .other-message {
+    align-self: flex-start;
+    background-color: #cf3d3d;
+    color: white;
+  }
+  
+  #send-container {
+    display: flex;
+    padding: 15px;
+    background: #f9f9f9;
+    border-top: 1px solid #eee;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 0px;
+  }
+  
+  #message-input {
+    flex: 1;
+    padding: 15px;
+    margin-right: 10px;
+    border: 2px solid #ddd;
+    border-radius: 30px;
+    outline: none;
+    width: 75%;
+  }
+  
+  #send-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 25%;
+    margin-bottom: 15px;
+  }
+  
+  #send-button:hover {
+    background-color: #0056b3;
+  }
+  
+  @media (max-width: 768px) {
+    #chatbox {
+      max-width: 90%; /* Chatbox takes less width on smaller screens */
+    }
+  
+    #message-container {
+      height: calc(100vh - 140px); /* Adjust for smaller screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    #message-input, #send-button {
+      padding: 12px 24px; /* Smaller padding on smaller screens */
+    }
+  }
+  
