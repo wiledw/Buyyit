@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/userContext";
 import axios from 'axios';
 import {toast} from 'react-hot-toast';
@@ -7,7 +7,9 @@ import './Dashboard.css';
 export default function Dashboard() {
     const { user } = useContext(UserContext);
     // States for form inputs
+
     const [data, setData] = useState({
+        itemTag: '',
         itemName: '',
         buyerName: user.name,
         itemDetails: '',
@@ -16,6 +18,7 @@ export default function Dashboard() {
     })
 
     const [data1, setData1] = useState({
+        itemTag: '',
         itemName: '',
         sellerName: user.name,
         itemDetails: '',
@@ -28,9 +31,10 @@ export default function Dashboard() {
         e.preventDefault();
         // Form submission logic here
         // You might want to append form data and send it to your server/API
-        const {itemName, buyerName, itemDetails, itemPrice, itemImage} = data;
+        const {itemTag, itemName, buyerName, itemDetails, itemPrice, itemImage} = data;
         try {
             const {response} = await axios.post('/buyPost', {
+                itemTag,
                 itemName,
                 buyerName,
                 itemDetails,
@@ -41,6 +45,7 @@ export default function Dashboard() {
                 toast.error(response.data.error)
             } else {
                 setData( {
+                    itemTag: '',
                     itemName: '',
                     buyerName: '',
                     itemDetails: '',
@@ -59,11 +64,13 @@ export default function Dashboard() {
     // Handle sell post form submission
     const handleSellPostSubmit = async (e) => {
         e.preventDefault();
+        console.log(data1);
         // Form submission logic here
         // You might want to append form data and send it to your server/API
-        const {itemName, sellerName, itemDetails, itemPrice, itemImage} = data1;
+        const {itemTag, itemName, sellerName, itemDetails, itemPrice, itemImage} = data1;
         try {
             const {response} = await axios.post('/sellPost', {
+                itemTag,
                 itemName,
                 sellerName,
                 itemDetails,
@@ -74,6 +81,7 @@ export default function Dashboard() {
                 toast.error(response.data.error);
             } else {
                 setData1( {
+                    itemTag: '',
                     itemName: '',
                     sellerName: '',
                     itemDetails: '',
@@ -117,6 +125,11 @@ export default function Dashboard() {
                     <div className="post-container">
                         <h2>Add buy post:</h2>
                         <form onSubmit={handleBuyPostSubmit}>
+                            <label>Tag</label>
+                            <select value={data.itemTag} onChange={(e) => setData({...data, itemTag: e.target.value})}>
+                                <option value="Item">Item</option>
+                                <option value="Service">Academic Service</option>
+                            </select>
                             <label>Item Name</label>
                             <input type='text' placeholder='enter item name...' value={data.itemName} onChange={(e) => setData({...data, itemName: e.target.value})} />
                             <label>Item Details</label>
@@ -136,6 +149,11 @@ export default function Dashboard() {
                     <div className="post-container">
                         <h2>Add Sell post:</h2>
                         <form onSubmit={handleSellPostSubmit}>
+                            <label>Tag</label>
+                            <select value={data1.itemTag} onChange={(e) => setData1({...data1, itemTag: e.target.value})}>
+                                <option value="Item">Item</option>
+                                <option value="Service">Academic Service</option>
+                            </select>
                             <label>Item Name</label>
                             <input type='text' placeholder='enter item name...' value={data1.itemName} onChange={(e) => setData1({...data1, itemName: e.target.value})} />
                             <label>Item Details</label>

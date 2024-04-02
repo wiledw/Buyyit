@@ -4,7 +4,7 @@ const sellPost = require('../models/sellPost')
 
 const buyingPost = async (req, res) => {
     try {
-       const {itemName, buyerName, itemDetails, itemPrice, itemImage} = req.body;
+       const {itemTag, itemName, buyerName, itemDetails, itemPrice, itemImage} = req.body;
        console.log(itemImage)
        if(!itemName){
             return res.json({
@@ -30,6 +30,7 @@ const buyingPost = async (req, res) => {
        const userEmail = req.user.email;
        console.log(userEmail);
        const post = await buyPost.create({
+            itemTag,
             itemName,
             buyerName,
             userEmail,
@@ -47,7 +48,7 @@ const buyingPost = async (req, res) => {
 
 const sellingPost = async (req, res) => {
     try{
-       const {itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
+       const {itemTag, itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
        console.log(itemImage)
        if(!itemName){
         return res.json({
@@ -73,6 +74,7 @@ const sellingPost = async (req, res) => {
        const userEmail = req.user.email;
        console.log(userEmail);
        const post = await sellPost.create({
+            itemTag,
             itemName,
             sellerName,
             userEmail,
