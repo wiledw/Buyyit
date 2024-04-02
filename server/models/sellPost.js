@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose
 
 const sellPostSchema = new Schema({
+    itemTag: {
+        type: String,
+        required: false
+    },
     itemName: {
         type: String,
         required: true
