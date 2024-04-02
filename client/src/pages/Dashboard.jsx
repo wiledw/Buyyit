@@ -9,7 +9,7 @@ export default function Dashboard() {
     // States for form inputs
     const [data, setData] = useState({
         itemName: '',
-        buyerName: '',
+        buyerName: user.name,
         itemDetails: '',
         itemPrice: '',
         itemImage: null,
@@ -17,7 +17,7 @@ export default function Dashboard() {
 
     const [data1, setData1] = useState({
         itemName: '',
-        sellerName: '',
+        sellerName: user.name,
         itemDetails: '',
         itemPrice: '',
         itemImage: null,
@@ -119,8 +119,6 @@ export default function Dashboard() {
                         <form onSubmit={handleBuyPostSubmit}>
                             <label>Item Name</label>
                             <input type='text' placeholder='enter item name...' value={data.itemName} onChange={(e) => setData({...data, itemName: e.target.value})} />
-                            <label>Buyer Name</label>
-                            <input type='text' placeholder='enter buyer name...' value={data.buyerName} onChange={(e) => setData({...data, buyerName: e.target.value})}/>
                             <label>Item Details</label>
                             <textarea type='text' placeholder='enter item details...' value={data.itemDetails} onChange={(e) => setData({...data, itemDetails: e.target.value})}/>
                             <label>Desired Item Price</label>
@@ -140,8 +138,6 @@ export default function Dashboard() {
                         <form onSubmit={handleSellPostSubmit}>
                             <label>Item Name</label>
                             <input type='text' placeholder='enter item name...' value={data1.itemName} onChange={(e) => setData1({...data1, itemName: e.target.value})} />
-                            <label>Seller Name</label>
-                            <input type='text' placeholder='enter buyer name...' value={data1.sellerName} onChange={(e) => setData1({...data1, sellerName: e.target.value})}/>
                             <label>Item Details</label>
                             <textarea type='text' placeholder='enter item details...' value={data1.itemDetails} onChange={(e) => setData1({...data1, itemDetails: e.target.value})}/>
                             <label>Item Price</label>
