@@ -8,40 +8,50 @@ export default function Buy() {
   const [searchTerm, setSearchTerm] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState('buy');
 
+  const queries = {
+    'buy': 'BuyPost',
+    'sell': 'SellPost',
+    'academics': 'AcademicPost'
+  }
 
   // Fetch ads from backend
-  useEffect(() => {
-    fetchAds();
-  }, []);
+  // useEffect(() => {
+  //   setSelectedOption('buy')
+  //   fetchAds();
+  // }, []);
 
   useEffect(() => {
-    if (selectedOption === 'buy') {
-      console.log('Fetching buy posts');
-    } else if (selectedOption === 'sell') {
-      console.log('Fetching sell posts');
-    }
-    else if (selectedOption === 'academics') {
-      console.log('Fetching academic posts');
-    }
+    console.log(selectedOption);
+    fetchAds(selectedOption);
+    // if (selectedOption === 'buy') {
+    //   console.log('Fetching buy posts');
+    // } else if (selectedOption === 'sell') {
+    //   console.log('Fetching sell posts');
+    // }
+    // else if (selectedOption === 'academics') {
+    //   console.log('Fetching academic posts');
+    // }
   }, [selectedOption]);
 
   const fetchAds = async () => {
+    let query = '/fetch' + queries[selectedOption];
     try {
-      const response = await axios.get('/fetchSellPost');
+      const response = await axios.get(query);
       const data = response.data;
       setAds(data);
     } catch (error) {
+      console.log(query);
       console.log(error);
       toast.error('Failed to fetch posts');
     }
   };
 
-  const fetchFilterSellingAds = async () => {
+  const fetchFilterAds = async () => {
     try {
       // Construct the query string with filters
-      let queryString = `/fetchFilterSellPost?`;
+      let queryString = `/fetchFilter` + queries[selectedOption] + '?';
       queryString += searchTerm ? `searchTerm=${encodeURIComponent(searchTerm)}&` : '';
       queryString += minPrice ? `minPrice=${encodeURIComponent(minPrice)}&` : '';
       queryString += maxPrice ? `maxPrice=${encodeURIComponent(maxPrice)}&` : '';
@@ -84,7 +94,7 @@ export default function Buy() {
           value={maxPrice}
           onChange={(e) => setMaxPrice(e.target.value)}
         />
-        <button onClick={fetchFilterSellingAds}>Search</button>
+        <button onClick={fetchFilterAds}>Search</button>
       </div>
 
 
