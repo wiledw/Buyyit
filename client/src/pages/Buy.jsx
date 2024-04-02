@@ -10,7 +10,7 @@ export default function Buy() {
   const [maxPrice, setMaxPrice] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
 
-  
+
   // Fetch ads from backend
   useEffect(() => {
     fetchAds();
@@ -29,7 +29,7 @@ export default function Buy() {
 
   const fetchAds = async () => {
     try {
-      const response = await axios.get('/fetchBuyPost');
+      const response = await axios.get('/fetchSellPost');
       const data = response.data;
       setAds(data);
     } catch (error) {
@@ -38,10 +38,10 @@ export default function Buy() {
     }
   };
 
-  const fetchFilterBuyingAds = async () => {
+  const fetchFilterSellingAds = async () => {
     try {
       // Construct the query string with filters
-      let queryString = `/fetchFilterBuyPost?`;
+      let queryString = `/fetchFilterSellPost?`;
       queryString += searchTerm ? `searchTerm=${encodeURIComponent(searchTerm)}&` : '';
       queryString += minPrice ? `minPrice=${encodeURIComponent(minPrice)}&` : '';
       queryString += maxPrice ? `maxPrice=${encodeURIComponent(maxPrice)}&` : '';
@@ -84,7 +84,7 @@ export default function Buy() {
           value={maxPrice}
           onChange={(e) => setMaxPrice(e.target.value)}
         />
-        <button onClick={fetchFilterBuyingAds}>Search</button>
+        <button onClick={fetchFilterSellingAds}>Search</button>
       </div>
 
 
@@ -92,7 +92,7 @@ export default function Buy() {
           {ads.map((ad) => (
                   <div key={ad._id} className="ad">
                   <h3>{ad.itemName}</h3>
-                  <p>Buyer: {ad.buyerName}</p>
+                  <p>Seller: {ad.sellerName}</p>
                   <p>Email: {ad.userEmail}</p>
                   <p>Details: {ad.itemDetails}</p>
                   <p>Price: ${ad.itemPrice}</p>
@@ -100,6 +100,7 @@ export default function Buy() {
                   </div>
               ))}
         </div>
+
     </div>
   );
 }
