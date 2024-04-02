@@ -8,11 +8,24 @@ export default function Buy() {
   const [searchTerm, setSearchTerm] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  const [selectedOption, setSelectedOption] = useState('');
 
+  
   // Fetch ads from backend
   useEffect(() => {
     fetchAds();
   }, []);
+
+  useEffect(() => {
+    if (selectedOption === 'buy') {
+      console.log('Fetching buy posts');
+    } else if (selectedOption === 'sell') {
+      console.log('Fetching sell posts');
+    }
+    else if (selectedOption === 'academics') {
+      console.log('Fetching academic posts');
+    }
+  }, [selectedOption]);
 
   const fetchAds = async () => {
     try {
@@ -47,6 +60,11 @@ export default function Buy() {
 
   return (
     <div className='content-container'>
+      <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
+        <option value="buy">Buy</option>
+        <option value="sell">Sell</option>
+        <option value="academics">Academics</option>
+      </select>
       <div className='search-filters'>
         <input
           type="search"
@@ -82,7 +100,6 @@ export default function Buy() {
                   </div>
               ))}
         </div>
-
     </div>
   );
 }
