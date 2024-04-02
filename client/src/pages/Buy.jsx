@@ -102,6 +102,7 @@ export default function Buy() {
           {ads.map((ad) => (
                   <div key={ad._id} className="ad">
                   <h3>{ad.itemName}</h3>
+                  <p>Tag: {ad.itemTag}</p>
                   <p>Seller: {ad.sellerName}</p>
                   <p>Email: {ad.userEmail}</p>
                   <p>Details: {ad.itemDetails}</p>
