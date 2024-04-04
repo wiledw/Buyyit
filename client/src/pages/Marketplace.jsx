@@ -8,31 +8,17 @@ export default function Marketplace() {
   const [searchTerm, setSearchTerm] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [selectedOption, setSelectedOption] = useState('offerings');
+  const [selectedOption, setSelectedOption] = useState('offers');
 
   const queries = {
-    'offerings': 'Offerings',
-    'listings': 'Listings',
+    'offers': 'Offer',
+    'requests': 'Request',
     'academics': ''
   }
-
-  // Fetch ads from backend
-  // useEffect(() => {
-  //   setSelectedOption('buy')
-  //   fetchAds();
-  // }, []);
 
   useEffect(() => {
     console.log(selectedOption);
     fetchAds(selectedOption);
-    // if (selectedOption === 'buy') {
-    //   console.log('Fetching buy posts');
-    // } else if (selectedOption === 'sell') {
-    //   console.log('Fetching sell posts');
-    // }
-    // else if (selectedOption === 'academics') {
-    //   console.log('Fetching academic posts');
-    // }
   }, [selectedOption]);
 
   const fetchAds = async () => {
@@ -71,8 +57,8 @@ export default function Marketplace() {
   return (
     <div className='content-container'>
       <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-        <option value="offerings">Offerings</option>
-        <option value="listings">Listings</option>
+        <option value="offers">Offers</option>
+        <option value="requests">Requests</option>
         <option value="academics">Academics</option>
       </select>
       <div className='search-filters'>
@@ -102,7 +88,6 @@ export default function Marketplace() {
           {ads.map((ad) => (
                   <div key={ad._id} className="ad">
                   <h3>{ad.itemName}</h3>
-                  <p>Tag: {ad.itemTag}</p>
                   <p>Seller: {ad.sellerName}</p>
                   <p>Email: {ad.userEmail}</p>
                   <p>Details: {ad.itemDetails}</p>
