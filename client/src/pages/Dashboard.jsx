@@ -73,9 +73,9 @@ export default function Dashboard() {
             if (itemType === 'item') {
                 post = '/postOffer'
             } else {
-                post = '/servicePost'
+                post = '/postAcademic'
             }
-            const {response} = await axios.post('/postOffer', {
+            const {response} = await axios.post(post, {
                 itemName,
                 sellerName,
                 itemDetails,
@@ -126,9 +126,10 @@ export default function Dashboard() {
             <div>
                 <div className="page-container">
                     <div className="greeting">{!!user && (<h2>Hi {user.name}! </h2>)}</div>
+                    <h2>What would you like to list?</h2>
                     <select value={formType} onChange={(e) => setFormType(e.target.value)}>
-                            <option value="buy">Buy</option>
-                            <option value="sell">Sell</option>
+                            <option value="buy">Request</option>
+                            <option value="sell">Offer</option>
                     </select>
                     <div className="posts-container">
                         <div className="post-container">
@@ -164,9 +165,10 @@ export default function Dashboard() {
             <div>
                 <div className="page-container">
                     <div className="greeting">{!!user && (<h2>Hi {user.name}! </h2>)}</div>
+                    <h2>What would you like to list?</h2>
                     <select value={formType} onChange={(e) => setFormType(e.target.value)}>
-                            <option value="buy">Buy</option>
-                            <option value="sell">Sell</option>
+                            <option value="buy">Request</option>
+                            <option value="sell">Offer</option>
                     </select>
                     <div className="posts-container">
                         <div className="post-container">

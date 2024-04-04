@@ -1,5 +1,6 @@
 const request = require('../models/request')
 const offer = require('../models/offer')
+const academic = require('../models/academic')
 
 
 const postOffer = async (req, res) => {
@@ -88,6 +89,48 @@ const postRequest = async (req, res) => {
     }
 }
 
+const postAcademic = async (req, res) => {
+    try{
+       const {itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
+       console.log(itemImage)
+       if(!itemName){
+        return res.json({
+            error: 'Please fill in item name'
+        })
+       }
+       if(!sellerName){
+        return res.json({
+            error: 'Please fill in seller name'
+        })
+       }
+       if(!itemDetails){
+        return res.json({
+            error: 'Please fill in item details'
+        })
+       }
+       if(!itemPrice){
+        return res.json({
+            error: 'Please fill in item price'
+        })
+       }
+       
+       const userEmail = req.user.email;
+       console.log(userEmail);
+       const post = await academic.create({
+            itemName,
+            sellerName,
+            userEmail,
+            itemDetails,
+            itemPrice,
+            itemImage
+       });
+
+       return res.json(post);
+
+    } catch (error) {
+        console.log(error)
+    }
+}
 // Fetch offer part
 
 const fetchOffer = async (req, res) => {
@@ -174,4 +217,45 @@ const fetchFilterRequest = async (req, res) => {
     }
 };
 
-module.exports = {postOffer,postRequest,fetchOffer, fetchFilterOffer, fetchRequest, fetchFilterRequest};
+const fetchAcademic = async (req, res) => {
+    try {
+        const posts = await academic.find({});
+        res.status(200).json(posts);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const fetchFilterAcademic = async (req, res) => {
+    try {
+        // Extract query parameters
+        const { searchTerm, minPrice, maxPrice } = req.query;
+
+        // Build a query object to hold your search conditions
+        let queryConditions = {};
+        
+        if (searchTerm) {
+            // Assuming you want to search within the itemName and itemDetails fields
+            queryConditions.$or = [
+                { itemName: { $regex: searchTerm, $options: 'i' } },
+                { itemDetails: { $regex: searchTerm, $options: 'i' } }
+            ];
+        }
+        
+        if (minPrice) {
+            queryConditions.itemPrice = { ...queryConditions.itemPrice, $gte: Number(minPrice) };
+        }
+        
+        if (maxPrice) {
+            queryConditions.itemPrice = { ...queryConditions.itemPrice, $lte: Number(maxPrice) };
+        }
+
+        const posts = await academic.find(queryConditions);
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error('Failed to fetch offers:', error);
+        res.status(500).json({ message: 'Failed to fetch offers due to an error.' });
+    }
+};
+
+module.exports = {postOffer,postRequest,postAcademic, fetchOffer, fetchFilterOffer, fetchAcademic, fetchFilterAcademic, fetchRequest, fetchFilterRequest};

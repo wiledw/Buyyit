@@ -13,7 +13,7 @@ export default function Marketplace() {
   const queries = {
     'offers': 'Offer',
     'requests': 'Request',
-    'academics': ''
+    'academics': 'Academic'
   }
 
   useEffect(() => {
