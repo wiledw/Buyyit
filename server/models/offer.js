@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose
-
+// schema template for offer listings
 const offerSchema = new Schema({
     itemName: {
         type: String,

@@ -14,6 +14,7 @@ export default function Marketplace() {
     fetchAds();
   }, []);
 
+  // fetches all listings for academic offers from back-end
   const fetchAds = async () => {
     let query = '/fetchAcademic';
     try {
@@ -27,6 +28,7 @@ export default function Marketplace() {
     }
   };
 
+  // fetch all listings, specifies filters for the mongo query
   const fetchFilterAds = async () => {
     try {
       // Construct the query string with filters

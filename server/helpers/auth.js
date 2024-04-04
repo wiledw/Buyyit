@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 
+// used for password verification on login
+
 const hashPassword = (password) => {
     return new Promise((resolve, reject) => {
         bcrypt.genSalt(12, (err, salt) => {

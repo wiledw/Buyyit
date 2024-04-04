@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose
-
+// schema template for request listings
 const requestSchema = new Schema({
     itemName: {
         type: String,

@@ -9,6 +9,7 @@ export default function Home() {
   const [data, setData] = useState({ message: '' });
   const [messages, setMessages] = useState([]); // Use state to store messages
 
+  // connect user to chat room
   useEffect(() => {
     if (user) { // Only proceed if user is not null
       const socketInstance = io('http://localhost:3000');
@@ -40,6 +41,7 @@ export default function Home() {
     }
   }, [user]); // Add user as a dependency
 
+  // send chat message (if logged in, message not empty)
   const handleSubmit = (e) => {
     e.preventDefault();
     const message = data.message;

@@ -13,6 +13,7 @@ export default function Dashboard() {
     const [formType, setFormType] = useState('buy');
     const [itemType, setItemType] = useState('item');
 
+    // stores current data for posting a buy/request listing
     const [data, setData] = useState({
         itemName: '',
         buyerName: user.name,
@@ -21,6 +22,7 @@ export default function Dashboard() {
         itemImage: null,
     })
 
+    // stores current data for posting a sell/offer listing
     const [data1, setData1] = useState({
         itemName: '',
         sellerName: user.name,
@@ -107,11 +109,13 @@ export default function Dashboard() {
         }        
     };
 
+    // process attached file to base 64
     const handleFileChange = (postType, e) => {
         const file = e.target.files[0];
         convertToBase64(postType, file);
     };
 
+    // helper function, convert file into raw data to be stored in mongo
     const convertToBase64 = (postType, file) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -193,7 +197,7 @@ export default function Dashboard() {
     }
 
 
-
+    // display different form depending on whether user wants to buy or sell
     if (formType === 'sell') {
         return (
             <div>

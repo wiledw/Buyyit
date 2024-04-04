@@ -4,11 +4,13 @@ const request = require('../models/request')
 const offer = require('../models/offer')
 const academic = require('../models/academic')
 
-
+// post an offer to mongo
 const postOffer = async (req, res) => {
     try {
+       // destructure request
        const {itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
        console.log(itemImage)
+       // checks if any fields are not filled
        if(!itemName){
             return res.json({
                 error: 'Please fill in item name'
@@ -32,6 +34,7 @@ const postOffer = async (req, res) => {
        
        const userEmail = req.user.email;
        console.log(userEmail);
+       // attempts to send post to mongo
        const post = await offer.create({
             itemName,
             sellerName,
@@ -48,6 +51,7 @@ const postOffer = async (req, res) => {
     }
 }
 
+// same as postOffer but sends to a different schema
 const postRequest = async (req, res) => {
     try{
        const {itemName, buyerName, itemDetails, itemPrice, itemImage} = req.body;
@@ -91,6 +95,7 @@ const postRequest = async (req, res) => {
     }
 }
 
+// same as postOffer but sends to a different schema
 const postAcademic = async (req, res) => {
     try{
        const {itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
@@ -134,7 +139,7 @@ const postAcademic = async (req, res) => {
     }
 }
 // Fetch offer part
-
+// return list of all offers
 const fetchOffer = async (req, res) => {
     try {
         const posts = await offer.find({});
@@ -144,6 +149,7 @@ const fetchOffer = async (req, res) => {
     }
 }
 
+// return list of all offers, look for filters in request from client
 const fetchFilterOffer = async (req, res) => {
     try {
         // Extract query parameters
@@ -177,7 +183,7 @@ const fetchFilterOffer = async (req, res) => {
 };
 
 // Fetch selling part
-
+// same as Offer counterpart
 const fetchRequest = async (req, res) => {
     try {
         const posts = await request.find({});
@@ -186,7 +192,7 @@ const fetchRequest = async (req, res) => {
         console.log(error);
     }
 }
-
+// same as Offer counterpart
 const fetchFilterRequest = async (req, res) => {
     try {
         // Extract query parameters
@@ -218,7 +224,7 @@ const fetchFilterRequest = async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch requests due to an error.' });
     }
 };
-
+// same as offer counterpart
 const fetchAcademic = async (req, res) => {
     try {
         const posts = await academic.find({});
@@ -227,7 +233,7 @@ const fetchAcademic = async (req, res) => {
         console.log(error);
     }
 }
-
+// same as offer counterpart
 const fetchFilterAcademic = async (req, res) => {
     try {
         // Extract query parameters
@@ -260,6 +266,7 @@ const fetchFilterAcademic = async (req, res) => {
     }
 };
 
+// used to verify whether user has admin privileges
 const isAdmin = async(req, res) => {
     try {
         // Check if the user is an admin
@@ -279,6 +286,7 @@ const isAdmin = async(req, res) => {
     
 };
 
+// delete a user from mongo
 const deleteUser = async (req, res) => {
     try {
         const targetEmail = req.body.email;
@@ -325,6 +333,7 @@ const deleteUser = async (req, res) => {
 
 }
 
+// promote an existing user to admin, adds them to a mongo schema indexed by account email 
 const makeAdmin = async (req, res) => {
     try {
         const targetEmail = req.body.email;
@@ -361,6 +370,7 @@ const makeAdmin = async (req, res) => {
         
 }
 
+// demotes an existing admin to a regular user
 const removeAdmin = async (req, res) => {
     try {
         const  email = req.body.email;

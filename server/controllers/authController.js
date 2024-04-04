@@ -75,6 +75,7 @@ const loginUser = async (req, res) => {
     }
 }
 
+// verify token, respond with user object if valid
 const getProfile = (req, res) => {
     const {token} = req.cookies
     if(token){
@@ -87,6 +88,7 @@ const getProfile = (req, res) => {
     }
 }
 
+// signal logout
 const logoutUser = (req, res) => {
     res.status(202).clearCookie('token').send('cookie cleared')
 }

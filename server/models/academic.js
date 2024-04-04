@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose
-
+// schema template for academic listings
 const academicSchema = new Schema({
     itemName: {
         type: String,

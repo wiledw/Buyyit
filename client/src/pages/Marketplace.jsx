@@ -16,11 +16,13 @@ export default function Marketplace() {
     'academics': 'Academic'
   }
 
+  // reload listings when selected options change
   useEffect(() => {
     console.log(selectedOption);
-    fetchAds(selectedOption);
+    fetchAds();
   }, [selectedOption]);
 
+  // fetches all listings for selected listing type from back-end
   const fetchAds = async () => {
     let query = '/fetch' + queries[selectedOption];
     try {
@@ -34,6 +36,7 @@ export default function Marketplace() {
     }
   };
 
+  // fetch all listings, specifies filters for the mongo query
   const fetchFilterAds = async () => {
     try {
       // Construct the query string with filters
@@ -88,7 +91,8 @@ export default function Marketplace() {
           {ads.map((ad) => (
                   <div key={ad._id} className="ad">
                   <h3>{ad.itemName}</h3>
-                  <p>Seller: {(ad.sellerName || ad.buyerName)}</p>
+                  {ad.sellerName && <p>Seller: {ad.sellerName}</p>}
+                  {ad.buyerName && <p>Buyer: {ad.buyerName}</p>}
                   <p>Email: {ad.userEmail}</p>
                   <p>Details: {ad.itemDetails}</p>
                   <p>Price: ${ad.itemPrice}</p>
