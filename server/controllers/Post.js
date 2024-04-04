@@ -1,5 +1,7 @@
 const buyPost = require('../models/buyPost')
 const sellPost = require('../models/sellPost')
+const User = require('../models/user')
+const admin = require('../models/admin')
 
 
 const buyingPost = async (req, res) => {
@@ -176,4 +178,138 @@ const fetchFilterSellingPost = async (req, res) => {
     }
 };
 
-module.exports = {buyingPost,sellingPost,fetchBuyingPost, fetchFilterBuyingPost, fetchSellingPost, fetchFilterSellingPost};
+const isAdmin = async(req, res) => {
+    try {
+        // Check if the user is an admin
+        const user = req.user;
+        const target = await admin.findOne({email: user.email});
+
+        if(target){
+            console.log('Person is an admin');
+            return res.json({isAdmin: true});
+        } else {
+            console.log('Person is not an admin');
+            return res.json({isAdmin: false});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
+};
+
+const deleteUser = async (req, res) => {
+    try {
+        const email = req.body.email;
+        console.log(email);
+        const user = await User.findOne({email});
+        console.log(user);
+
+        const sender = req.user.email;
+
+        const senderAdmin = await admin.findOne({email: sender});
+
+        if(!senderAdmin){
+            return res.json({message: 'You are not an admin'});
+        }
+
+        if(user){
+            if(user.email === email){
+                // Send a failed response
+                return res.json({message: 'You cannot delete yourself'});
+            }
+
+            // Remove user
+            await User.findOneAndDelete({email});
+
+            // Remove user if they are an admin
+            await admin.findOneAndDelete({email});
+
+            // Delete user posts
+            await buyPost.deleteMany({userEmail: email});
+            await sellPost.deleteMany({userEmail: email});
+            //TODO: Delete academic services
+
+            console.log('User deleted successfully');
+
+            return res.json({message: 'User deleted successfully'});
+        }
+
+        console.log('User not found');
+        // If the user does not exist
+        return res.json({message: 'User not found'});
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+const makeAdmin = async (req, res) => {
+    try {
+        const email = req.body.email;
+        
+        // Check if the person making the request is an admin
+        const user = await User.findOne({email: req.user.email});
+        const userAdmin = await admin.findOne({email: req.user.email});
+        if(!userAdmin){
+            return res.json({message: 'You are not an admin'});
+        }
+
+        // Check if the user exists
+        const userToMakeAdmin = await User.findOne({email});
+        if(userToMakeAdmin){
+            // Check if the user is already an admin
+            const targetAdmin = await admin.findOne({email});
+            if(targetAdmin){
+                return res.json({message: 'User is already an admin'});
+            }
+
+            await admin.create({email});
+
+            return res.json({message: 'User is now an admin'});
+        }
+
+        // If the user does not exist
+        return res.json({message: 'User not found'});
+
+
+    } catch (error) {
+        console.log(error);
+    }
+        
+}
+
+const removeAdmin = async (req, res) => {
+    try {
+        const  email = req.body.email;
+        
+        // Check if the person making the request is an admin
+        const user = await User.findOne({email: req.user.email});
+        const userAdmin = await admin.findOne({email: req.user.email});
+        if(!userAdmin){
+            return res.json({message: 'You are not an admin'});
+        }
+
+        // Check if the user exists
+        const target = await admin.findOne({email});
+
+        if(!target){
+            return res.json({message: 'User is not an admin'});
+        }
+
+        if(target.email === req.user.email){
+            return res.json({message: 'You cannot remove yourself as an admin'});
+        }
+
+        await admin.findOneAndDelete({email});
+
+        return res.json({message: 'User is no longer an admin'});
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+
+
+module.exports = {buyingPost,sellingPost,fetchBuyingPost, fetchFilterBuyingPost, fetchSellingPost, fetchFilterSellingPost, isAdmin, deleteUser, makeAdmin, removeAdmin};

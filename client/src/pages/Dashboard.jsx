@@ -6,6 +6,8 @@ import './Dashboard.css';
 
 export default function Dashboard() {
     const { user } = useContext(UserContext);
+    const [adminResponse, setAdminResponse] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
     // States for form inputs
 
     const [data, setData] = useState({
@@ -25,6 +27,10 @@ export default function Dashboard() {
         itemPrice: '',
         itemImage: null,
     })
+
+    useEffect(() => {
+        requestAdmin();
+    }, []);
 
     // Handle buy post form submission
     const handleBuyPostSubmit = async (e) => {
@@ -117,6 +123,73 @@ export default function Dashboard() {
         };
     };
 
+    // Request admin privileges
+    const requestAdmin = async () => {
+
+        try {
+            // Get user token
+            const token = document.cookie.substring(6);
+
+            console.log(user)
+            // Send request to server
+            const response = await axios.get('/requestAdmin', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            // See if user is admin
+            if (response?.data?.isAdmin) {
+                // Make admin components visible
+                console.log('Admin')
+                setIsAdmin(true);
+            }
+
+        } catch (error) {
+            setIsAdmin(false);
+        }
+
+        console.log('Not Admin')
+        return false;
+
+    }
+
+
+    // Manipulate user based on the request
+    const manipulateUser = async (request) => {
+
+
+        const uEmail = "weee";
+        console.log(uEmail);
+        
+        const token = document.cookie.substring(6);
+
+        console.log(request);
+
+    
+        try {
+        
+            // Send request to server
+            const response = await axios.post(request, {
+                email: uEmail
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            // Display result message
+            setAdminResponse(response.data.message);
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    }
+
+
+
     return (
         <div>
             <div className="page-container">
@@ -170,7 +243,18 @@ export default function Dashboard() {
                             <button type='submit'>Submit</button>
                         </form>
                     </div>
+
+
                 </div>
+                {isAdmin && (<div className="admin-container">
+                    <h2>Admin Panel</h2><br />
+                    <input type='email' placeholder='enter email...' id='userEmail' /> <br />
+                    <input type='button' value='Delete User' onClick={(e) => manipulateUser('/deleteUser')} />
+                    <input type='button' value='Make Admin' onClick={(e) => manipulateUser('/makeAdmin')} />
+                    <input type='button' value='Remove Admin' onClick={(e) => manipulateUser('/removeAdmin')} />
+                    <p id='adminResponse'>{adminResponse}</p>
+                </div>) }
+                    
             </div>
         </div>
     );
