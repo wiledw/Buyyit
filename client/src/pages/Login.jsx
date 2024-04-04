@@ -23,7 +23,7 @@ export default function Login() {
       } else {
         setData({});
         toast.success('Login Successful')
-        navigate('/dashboard')
+        navigate('/')
         window.location.reload();
       }
 
