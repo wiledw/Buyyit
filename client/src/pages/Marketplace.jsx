@@ -88,7 +88,7 @@ export default function Marketplace() {
           {ads.map((ad) => (
                   <div key={ad._id} className="ad">
                   <h3>{ad.itemName}</h3>
-                  <p>Seller: {ad.sellerName}</p>
+                  <p>Seller: {(ad.sellerName || ad.buyerName)}</p>
                   <p>Email: {ad.userEmail}</p>
                   <p>Details: {ad.itemDetails}</p>
                   <p>Price: ${ad.itemPrice}</p>

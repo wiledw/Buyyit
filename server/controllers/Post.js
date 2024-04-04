@@ -47,14 +47,14 @@ const postOffer = async (req, res) => {
 
 const postRequest = async (req, res) => {
     try{
-       const {itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
+       const {itemName, buyerName, itemDetails, itemPrice, itemImage} = req.body;
        console.log(itemImage)
        if(!itemName){
         return res.json({
             error: 'Please fill in item name'
         })
        }
-       if(!sellerName){
+       if(!buyerName){
         return res.json({
             error: 'Please fill in seller name'
         })
@@ -74,7 +74,7 @@ const postRequest = async (req, res) => {
        console.log(userEmail);
        const post = await request.create({
             itemName,
-            sellerName,
+            buyerName,
             userEmail,
             itemDetails,
             itemPrice,

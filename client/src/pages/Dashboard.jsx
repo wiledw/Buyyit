@@ -34,6 +34,7 @@ export default function Dashboard() {
         // You might want to append form data and send it to your server/API
         const {itemName, buyerName, itemDetails, itemPrice, itemImage} = data;
         try {
+            console.log(buyerName)
             const {response} = await axios.post('/postRequest', {
                 itemName,
                 buyerName,
