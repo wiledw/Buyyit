@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {toast} from 'react-hot-toast';
-import './Buy.css'; 
+import './Marketplace.css'; 
 
-export default function Buy() {
+export default function Marketplace() {
   const [ads, setAds] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [selectedOption, setSelectedOption] = useState('buy');
+  const [selectedOption, setSelectedOption] = useState('offerings');
 
   const queries = {
-    'buy': 'BuyPost',
-    'sell': 'SellPost',
-    'academics': 'AcademicPost'
+    'offerings': 'Offerings',
+    'listings': 'Listings',
+    'academics': ''
   }
 
   // Fetch ads from backend
@@ -71,8 +71,8 @@ export default function Buy() {
   return (
     <div className='content-container'>
       <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-        <option value="buy">Buy</option>
-        <option value="sell">Sell</option>
+        <option value="offerings">Offerings</option>
+        <option value="listings">Listings</option>
         <option value="academics">Academics</option>
       </select>
       <div className='search-filters'>
