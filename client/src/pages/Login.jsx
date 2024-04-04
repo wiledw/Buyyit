@@ -10,6 +10,8 @@ export default function Login() {
     email: '',
     password: '',
   })
+
+  // attempts to log in with credentials
   const loginUser = async (e) => {
     e.preventDefault()
     const {email, password} = data
@@ -23,7 +25,7 @@ export default function Login() {
       } else {
         setData({});
         toast.success('Login Successful')
-        navigate('/dashboard')
+        navigate('/')
         window.location.reload();
       }
 

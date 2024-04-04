@@ -21,6 +21,8 @@
     border-radius: 4px;
   }
   
+
+
   /* Additional styles to ensure the search button is aligned */
   .search-filters button {
     padding: 10px 16px; /* Match the vertical padding of the inputs */
@@ -86,6 +88,16 @@
   }
   
   @media (max-width: 768px) {
+    .search-filters input {
+      width:22%;
+      margin-right:2.5%;
+    }
+
+    .search-filters button {
+      width: 15%;
+      min-width:70px;
+      text-align:center;
+    }
     .ad {
       width: calc(50% - 20px); /* Adjusts to two items per row on smaller screens */
     }

@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose
-
-const buyPostSchema = new Schema({
+// schema template for offer listings
+const offerSchema = new Schema({
     itemName: {
         type: String,
         required: true
     },
-    buyerName: {
+    sellerName: {
         type: String,
         required: true
     },
@@ -25,8 +25,7 @@ const buyPostSchema = new Schema({
     itemImage: String,
 })
 
+const offerModel = mongoose.model('offer', offerSchema);
 
-const buyPostModel = mongoose.model('buyPost', buyPostSchema);
 
-
-module.exports = buyPostModel;
+module.exports = offerModel;

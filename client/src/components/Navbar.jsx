@@ -9,8 +9,11 @@ import './Navbar.css';
 export default function Navbar() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
+
+  // facilitates logging out of logged in users
   const logout = () => {
     try {
+      // notifies server of logging out, redirects to login page
         axios.get('/logout');
         setUser(null);
         toast.success('Logout Successful');
@@ -26,8 +29,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="nav-items">
         <Link to="/" className="nav-item">Home</Link>
-        <Link to="/buy" className="nav-item">Buy</Link>
-        <Link to="/sell" className="nav-item">Sell</Link>
+        <Link to="/marketplace" className="nav-item">Marketplace</Link>
         <Link to="/academic-services" className="nav-item">Academic Services</Link>
       </div>
       {!user && (

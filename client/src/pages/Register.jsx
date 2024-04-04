@@ -12,6 +12,7 @@ export default function Register() {
         password: '',
     })
 
+    // attempts to register user with provided credentials
     const registerUser = async (e) => {
         e.preventDefault()
         const {name, email, password} = data
