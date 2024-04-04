@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Marketplace from './pages/Marketplace';
+import Academic from './pages/Academic';
 import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
 import { UserContextProvider } from '../context/userContext';
@@ -28,6 +29,7 @@ function App() {
       <Route path='/login' element={<Login />} />
       <Route path='/marketplace' element={<Marketplace />} />
       <Route path='/dashboard' element={<Dashboard />} />
+      <Route path='/academic-services' element={<Academic />} />
     </Routes>
     </UserContextProvider>
   )

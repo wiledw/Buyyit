@@ -8,21 +8,14 @@ export default function Marketplace() {
   const [searchTerm, setSearchTerm] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [selectedOption, setSelectedOption] = useState('offers');
 
-  const queries = {
-    'offers': 'Offer',
-    'requests': 'Request',
-    'academics': 'Academic'
-  }
 
   useEffect(() => {
-    console.log(selectedOption);
-    fetchAds(selectedOption);
-  }, [selectedOption]);
+    fetchAds();
+  }, []);
 
   const fetchAds = async () => {
-    let query = '/fetch' + queries[selectedOption];
+    let query = '/fetchAcademic';
     try {
       const response = await axios.get(query);
       const data = response.data;
@@ -37,7 +30,7 @@ export default function Marketplace() {
   const fetchFilterAds = async () => {
     try {
       // Construct the query string with filters
-      let queryString = `/fetchFilter` + queries[selectedOption] + '?';
+      let queryString = `/fetchFilterAcademic?`;
       queryString += searchTerm ? `searchTerm=${encodeURIComponent(searchTerm)}&` : '';
       queryString += minPrice ? `minPrice=${encodeURIComponent(minPrice)}&` : '';
       queryString += maxPrice ? `maxPrice=${encodeURIComponent(maxPrice)}&` : '';
@@ -56,11 +49,7 @@ export default function Marketplace() {
 
   return (
     <div className='content-container'>
-      <h2>What would you like to browse?</h2>
-      <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-        <option value="offers">Offers</option>
-        <option value="requests">Requests</option>
-      </select>
+        <h2>Academic Services</h2>
       <div className='search-filters'>
         <input
           type="search"
