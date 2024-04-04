@@ -26,8 +26,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="nav-items">
         <Link to="/" className="nav-item">Home</Link>
-        <Link to="/buy" className="nav-item">Buy</Link>
-        <Link to="/sell" className="nav-item">Sell</Link>
+        <Link to="/marketplace" className="nav-item">Marketplace</Link>
         <Link to="/academic-services" className="nav-item">Academic Services</Link>
       </div>
       {!user && (

@@ -1,19 +1,19 @@
-const buyPost = require('../models/buyPost')
-const sellPost = require('../models/sellPost')
+const request = require('../models/request')
+const offer = require('../models/offer')
 
 
-const buyingPost = async (req, res) => {
+const postOffer = async (req, res) => {
     try {
-       const {itemTag, itemName, buyerName, itemDetails, itemPrice, itemImage} = req.body;
+       const {itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
        console.log(itemImage)
        if(!itemName){
             return res.json({
                 error: 'Please fill in item name'
             })
        }
-       if(!buyerName){
+       if(!sellerName){
         return res.json({
-            error: 'Please fill in buyer name'
+            error: 'Please fill in seller name'
         })
        }
        if(!itemDetails){
@@ -30,9 +30,8 @@ const buyingPost = async (req, res) => {
        const userEmail = req.user.email;
        console.log(userEmail);
        const post = await buyPost.create({
-            itemTag,
             itemName,
-            buyerName,
+            sellerName,
             userEmail,
             itemDetails,
             itemPrice,
@@ -46,9 +45,9 @@ const buyingPost = async (req, res) => {
     }
 }
 
-const sellingPost = async (req, res) => {
+const postRequest = async (req, res) => {
     try{
-       const {itemTag, itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
+       const {itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
        console.log(itemImage)
        if(!itemName){
         return res.json({
@@ -73,8 +72,7 @@ const sellingPost = async (req, res) => {
        
        const userEmail = req.user.email;
        console.log(userEmail);
-       const post = await sellPost.create({
-            itemTag,
+       const post = await request.create({
             itemName,
             sellerName,
             userEmail,
@@ -90,18 +88,18 @@ const sellingPost = async (req, res) => {
     }
 }
 
-// Fetch buying part
+// Fetch offer part
 
-const fetchBuyingPost = async (req, res) => {
+const fetchOffer = async (req, res) => {
     try {
-        const posts = await buyPost.find({});
+        const posts = await offer.find({});
         res.status(200).json(posts);
     } catch (error) {
         console.log(error);
     }
 }
 
-const fetchFilterBuyingPost = async (req, res) => {
+const fetchFilterOffer = async (req, res) => {
     try {
         // Extract query parameters
         const { searchTerm, minPrice, maxPrice } = req.query;
@@ -125,17 +123,17 @@ const fetchFilterBuyingPost = async (req, res) => {
             queryConditions.itemPrice = { ...queryConditions.itemPrice, $lte: Number(maxPrice) };
         }
 
-        const posts = await buyPost.find(queryConditions);
+        const posts = await offer.find(queryConditions);
         res.status(200).json(posts);
     } catch (error) {
-        console.error('Failed to fetch buying posts:', error);
-        res.status(500).json({ message: 'Failed to fetch buying posts due to an error.' });
+        console.error('Failed to fetch offers:', error);
+        res.status(500).json({ message: 'Failed to fetch offers due to an error.' });
     }
 };
 
 // Fetch selling part
 
-const fetchSellingPost = async (req, res) => {
+const fetchRequest = async (req, res) => {
     try {
         const posts = await sellPost.find({});
         res.status(200).json(posts);
@@ -144,7 +142,7 @@ const fetchSellingPost = async (req, res) => {
     }
 }
 
-const fetchFilterSellingPost = async (req, res) => {
+const fetchFilterRequest = async (req, res) => {
     try {
         // Extract query parameters
         const { searchTerm, minPrice, maxPrice } = req.query;
@@ -171,9 +169,9 @@ const fetchFilterSellingPost = async (req, res) => {
         const posts = await sellPost.find(queryConditions);
         res.status(200).json(posts);
     } catch (error) {
-        console.error('Failed to fetch selling posts:', error);
-        res.status(500).json({ message: 'Failed to fetch selling posts due to an error.' });
+        console.error('Failed to fetch requests:', error);
+        res.status(500).json({ message: 'Failed to fetch requests due to an error.' });
     }
 };
 
-module.exports = {buyingPost,sellingPost,fetchBuyingPost, fetchFilterBuyingPost, fetchSellingPost, fetchFilterSellingPost};
+module.exports = {postOffer,postRequest,fetchOffer, fetchFilterOffer, fetchRequest, fetchFilterRequest};

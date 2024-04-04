@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors');
 const {test, registerUser, loginUser, getProfile, logoutUser, authenticateToken} = require('../controllers/authController')
-const {buyingPost, sellingPost, fetchBuyingPost, fetchFilterBuyingPost, fetchSellingPost, fetchFilterSellingPost} = require('../controllers/Post')
+const {postOffer, postRequest, fetchOffer, fetchFilterOffer, fetchRequest, fetchFilterRequest} = require('../controllers/Post')
 
 // middleware
 router.use(
@@ -18,12 +18,12 @@ router.post('/login', loginUser)
 router.get('/profile', getProfile)
 router.get('/logout', logoutUser)
 
-router.post('/buyPost', authenticateToken, buyingPost)
-router.post('/sellPost', authenticateToken, sellingPost)
-router.get('/fetchBuyPost', fetchBuyingPost)
-router.get('/fetchFilterBuyPost', fetchFilterBuyingPost)
-router.get('/fetchSellPost', fetchSellingPost)
-router.get('/fetchFilterSellPost', fetchFilterSellingPost)
+router.post('/postOffer', authenticateToken, postOffer)
+router.post('/postRequest', authenticateToken, postRequest)
+router.get('/fetchOffer', fetchOffer)
+router.get('/fetchFilterOffer', fetchFilterOffer)
+router.get('/fetchRequest', fetchRequest)
+router.get('/fetchFilterRequest', fetchFilterRequest)
 
 
 module.exports = router
