@@ -56,10 +56,11 @@ export default function Marketplace() {
 
   return (
     <div className='content-container'>
+      <h2>What would you like to browse?</h2>
       <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
         <option value="offers">Offers</option>
         <option value="requests">Requests</option>
-        <option value="academics">Academics</option>
+        <option value="academics">Academic Services</option>
       </select>
       <div className='search-filters'>
         <input
@@ -92,7 +93,8 @@ export default function Marketplace() {
                   <p>Email: {ad.userEmail}</p>
                   <p>Details: {ad.itemDetails}</p>
                   <p>Price: ${ad.itemPrice}</p>
-                  <img src={ad.itemImage} alt={ad.itemName} style={{ width: '100px', height: '100px' }} />
+                  
+                  {ad.itemImage && <img src={ad.itemImage} alt={ad.itemName} style={{ width: '100px', height: '100px' }} />}
                   </div>
               ))}
         </div>

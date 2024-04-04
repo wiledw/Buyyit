@@ -23,9 +23,9 @@ router.post('/postRequest', authenticateToken, postRequest)
 router.post('/postAcademic', authenticateToken, postAcademic)
 router.get('/fetchOffer', fetchOffer)
 router.get('/fetchFilterOffer', fetchFilterOffer)
+router.get('/fetchAcademic', fetchAcademic)
 router.get('/fetchFilterAcademic', fetchFilterAcademic)
 router.get('/fetchRequest', fetchRequest)
 router.get('/fetchFilterRequest', fetchFilterRequest)
-router.get('/fetchFilterAcademic', fetchFilterAcademic)
 
 module.exports = router

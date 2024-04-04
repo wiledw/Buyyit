@@ -115,9 +115,8 @@ export default function Dashboard() {
                 setData({...data, itemImage: base64data})
             } 
             if (postType === 'sell') {
-                setData({...data1, itemImage: base64data})
+                setData1({...data1, itemImage: base64data})
             }
-            
         };
     };
 
@@ -133,12 +132,12 @@ export default function Dashboard() {
                     </select>
                     <div className="posts-container">
                         <div className="post-container">
-                            <h2>Create item listing:</h2>
+                            <h2>Create offer listing:</h2>
                             <form onSubmit={handleSellPostSubmit}>
                                 <label>Type:</label>
                                 <select value={itemType} onChange={(e) => setItemType(e.target.value)}>
                                     <option value="item">Item</option>
-                                    <option value="service">Service</option>
+                                    <option value="service">Academic Service</option>
                                 </select>
                                 <label>Item Name</label>
                                 <input type='text' placeholder='enter item name...' value={data1.itemName} onChange={(e) => setData1({...data1, itemName: e.target.value})} />
