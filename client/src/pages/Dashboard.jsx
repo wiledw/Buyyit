@@ -230,6 +230,14 @@ export default function Dashboard() {
                             </form>
                         </div>
                     </div>
+                    {isAdmin && (<div className="admin-container">
+                    <h2>Admin Panel</h2><br />
+                    <input type='email' placeholder='enter email...' id='userEmail' /> <br />
+                    <input type='button' value='Delete User' onClick={(e) => manipulateUser('/deleteUser')} />
+                    <input type='button' value='Make Admin' onClick={(e) => manipulateUser('/makeAdmin')} />
+                    <input type='button' value='Remove Admin' onClick={(e) => manipulateUser('/removeAdmin')} />
+                    <p id='adminResponse'>{adminResponse}</p>
+                    </div>) }
                 </div>
             </div>
         );
