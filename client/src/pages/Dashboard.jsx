@@ -163,7 +163,7 @@ export default function Dashboard() {
     const manipulateUser = async (request) => {
 
 
-        const uEmail = "weee";
+        const uEmail = document.getElementById('userEmail').value;
         console.log(uEmail);
         
         const token = document.cookie.substring(6);

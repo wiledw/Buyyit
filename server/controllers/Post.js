@@ -281,12 +281,12 @@ const isAdmin = async(req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        const email = req.body.email;
-        console.log(email);
-        const user = await User.findOne({email});
-        console.log(user);
+        const targetEmail = req.body.email;
+        console.log(targetEmail);
+        const user = await User.findOne({email: targetEmail});
 
         const sender = req.user.email;
+        console.log(sender);
 
         const senderAdmin = await admin.findOne({email: sender});
 
@@ -295,20 +295,20 @@ const deleteUser = async (req, res) => {
         }
 
         if(user){
-            if(user.email === email){
+            if(sender === targetEmail){
                 // Send a failed response
                 return res.json({message: 'You cannot delete yourself'});
             }
 
             // Remove user
-            await User.findOneAndDelete({email});
+            await User.findOneAndDelete({email: targetEmail});
 
             // Remove user if they are an admin
-            await admin.findOneAndDelete({email});
+            await admin.findOneAndDelete({email: targetEmail});
 
             // Delete user posts
-            await buyPost.deleteMany({userEmail: email});
-            await sellPost.deleteMany({userEmail: email});
+            await buyPost.deleteMany({userEmail: targetEmail});
+            await sellPost.deleteMany({userEmail: targetEmail});
             //TODO: Delete academic services
 
             console.log('User deleted successfully');
@@ -327,25 +327,26 @@ const deleteUser = async (req, res) => {
 
 const makeAdmin = async (req, res) => {
     try {
-        const email = req.body.email;
+        const targetEmail = req.body.email;
         
         // Check if the person making the request is an admin
-        const user = await User.findOne({email: req.user.email});
         const userAdmin = await admin.findOne({email: req.user.email});
         if(!userAdmin){
             return res.json({message: 'You are not an admin'});
         }
 
         // Check if the user exists
-        const userToMakeAdmin = await User.findOne({email});
+        const userToMakeAdmin = await User.findOne({email: targetEmail});
+        console.log(targetEmail);
+        console.log(userToMakeAdmin);
         if(userToMakeAdmin){
             // Check if the user is already an admin
-            const targetAdmin = await admin.findOne({email});
+            const targetAdmin = await admin.findOne({email: targetEmail});
             if(targetAdmin){
                 return res.json({message: 'User is already an admin'});
             }
 
-            await admin.create({email});
+            await admin.create({email: targetEmail});
 
             return res.json({message: 'User is now an admin'});
         }
