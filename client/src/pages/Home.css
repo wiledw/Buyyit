@@ -16,6 +16,18 @@
     flex-direction: column;
     margin: auto; /* Center chatbox horizontally */
   }
+
+  @media (max-width: 768px) {
+    #chatbox {
+      height:60vh;
+    }
+    #message-container {
+      height:10vh;
+    }
+    #send-container {
+      height:7%;
+    }
+  }
   
   #chat-container {
     width: 100%; /* Full width of chatbox */
@@ -94,15 +106,6 @@
     background-color: #0056b3;
   }
   
-  @media (max-width: 768px) {
-    #chatbox {
-      max-width: 90%; /* Chatbox takes less width on smaller screens */
-    }
-  
-    #message-container {
-      height: calc(100vh - 140px); /* Adjust for smaller screens */
-    }
-  }
   
   @media (max-width: 480px) {
     #message-input, #send-button {
