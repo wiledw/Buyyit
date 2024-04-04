@@ -1,38 +1,24 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {toast} from 'react-hot-toast';
-import './Buy.css'; 
+import './Marketplace.css'; 
 
-export default function Buy() {
+export default function Marketplace() {
   const [ads, setAds] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [selectedOption, setSelectedOption] = useState('buy');
+  const [selectedOption, setSelectedOption] = useState('offers');
 
   const queries = {
-    'buy': 'BuyPost',
-    'sell': 'SellPost',
-    'academics': 'AcademicPost'
+    'offers': 'Offer',
+    'requests': 'Request',
+    'academics': 'Academic'
   }
-
-  // Fetch ads from backend
-  // useEffect(() => {
-  //   setSelectedOption('buy')
-  //   fetchAds();
-  // }, []);
 
   useEffect(() => {
     console.log(selectedOption);
     fetchAds(selectedOption);
-    // if (selectedOption === 'buy') {
-    //   console.log('Fetching buy posts');
-    // } else if (selectedOption === 'sell') {
-    //   console.log('Fetching sell posts');
-    // }
-    // else if (selectedOption === 'academics') {
-    //   console.log('Fetching academic posts');
-    // }
   }, [selectedOption]);
 
   const fetchAds = async () => {
@@ -70,10 +56,10 @@ export default function Buy() {
 
   return (
     <div className='content-container'>
+      <h2>What would you like to browse?</h2>
       <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-        <option value="buy">Buy</option>
-        <option value="sell">Sell</option>
-        <option value="academics">Academics</option>
+        <option value="offers">Offers</option>
+        <option value="requests">Requests</option>
       </select>
       <div className='search-filters'>
         <input
@@ -102,12 +88,12 @@ export default function Buy() {
           {ads.map((ad) => (
                   <div key={ad._id} className="ad">
                   <h3>{ad.itemName}</h3>
-                  <p>Tag: {ad.itemTag}</p>
-                  <p>Seller: {ad.sellerName}</p>
+                  <p>Seller: {(ad.sellerName || ad.buyerName)}</p>
                   <p>Email: {ad.userEmail}</p>
                   <p>Details: {ad.itemDetails}</p>
                   <p>Price: ${ad.itemPrice}</p>
-                  <img src={ad.itemImage} alt={ad.itemName} style={{ width: '100px', height: '100px' }} />
+                  
+                  {ad.itemImage && <img src={ad.itemImage} alt={ad.itemName} style={{ width: '100px', height: '100px' }} />}
                   </div>
               ))}
         </div>

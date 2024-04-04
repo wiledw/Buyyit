@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose
 
-const buyPostSchema = new Schema({
-    itemTag: {
-        type: String,
-        required: false
-    },
+const requestSchema = new Schema({
     itemName: {
         type: String,
         required: true
@@ -30,7 +26,6 @@ const buyPostSchema = new Schema({
 })
 
 
-const buyPostModel = mongoose.model('buyPost', buyPostSchema);
+const requestModel = mongoose.model('request', requestSchema);
 
-
-module.exports = buyPostModel;
+module.exports = requestModel;

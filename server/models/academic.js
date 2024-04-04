@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose
 
-const sellPostSchema = new Schema({
-    itemTag: {
-        type: String,
-        required: false
-    },
+const academicSchema = new Schema({
     itemName: {
         type: String,
         required: true
@@ -29,7 +25,7 @@ const sellPostSchema = new Schema({
     itemImage: String,
 })
 
-const sellPostModel = mongoose.model('sellPost', sellPostSchema);
+const academicModel = mongoose.model('academic', academicSchema);
 
 
-module.exports = sellPostModel;
+module.exports = academicModel;

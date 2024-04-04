@@ -10,8 +10,10 @@ export default function Dashboard() {
     const [isAdmin, setIsAdmin] = useState(false);
     // States for form inputs
 
+    const [formType, setFormType] = useState('buy');
+    const [itemType, setItemType] = useState('item');
+
     const [data, setData] = useState({
-        itemTag: '',
         itemName: '',
         buyerName: user.name,
         itemDetails: '',
@@ -20,7 +22,6 @@ export default function Dashboard() {
     })
 
     const [data1, setData1] = useState({
-        itemTag: '',
         itemName: '',
         sellerName: user.name,
         itemDetails: '',
@@ -37,10 +38,10 @@ export default function Dashboard() {
         e.preventDefault();
         // Form submission logic here
         // You might want to append form data and send it to your server/API
-        const {itemTag, itemName, buyerName, itemDetails, itemPrice, itemImage} = data;
+        const {itemName, buyerName, itemDetails, itemPrice, itemImage} = data;
         try {
-            const {response} = await axios.post('/buyPost', {
-                itemTag,
+            console.log(buyerName)
+            const {response} = await axios.post('/postRequest', {
                 itemName,
                 buyerName,
                 itemDetails,
@@ -51,7 +52,6 @@ export default function Dashboard() {
                 toast.error(response.data.error)
             } else {
                 setData( {
-                    itemTag: '',
                     itemName: '',
                     buyerName: '',
                     itemDetails: '',
@@ -73,10 +73,15 @@ export default function Dashboard() {
         console.log(data1);
         // Form submission logic here
         // You might want to append form data and send it to your server/API
-        const {itemTag, itemName, sellerName, itemDetails, itemPrice, itemImage} = data1;
+        const {itemName, sellerName, itemDetails, itemPrice, itemImage} = data1;
         try {
-            const {response} = await axios.post('/sellPost', {
-                itemTag,
+            let post = '';
+            if (itemType === 'item') {
+                post = '/postOffer'
+            } else {
+                post = '/postAcademic'
+            }
+            const {response} = await axios.post(post, {
                 itemName,
                 sellerName,
                 itemDetails,
@@ -87,7 +92,6 @@ export default function Dashboard() {
                 toast.error(response.data.error);
             } else {
                 setData1( {
-                    itemTag: '',
                     itemName: '',
                     sellerName: '',
                     itemDetails: '',
@@ -117,7 +121,7 @@ export default function Dashboard() {
                 setData({...data, itemImage: base64data})
             } 
             if (postType === 'sell') {
-                setData({...data1, itemImage: base64data})
+                setData1({...data1, itemImage: base64data})
             }
             
         };
@@ -190,63 +194,77 @@ export default function Dashboard() {
 
 
 
-    return (
-        <div>
-            <div className="page-container">
-                <div className="greeting">{!!user && (<h2>Hi {user.name}! </h2>)}</div>
-                <div className="posts-container">
-                    <div className="post-container">
-                        <h2>Add buy post:</h2>
-                        <form onSubmit={handleBuyPostSubmit}>
-                            <label>Tag</label>
-                            <select value={data.itemTag} onChange={(e) => setData({...data, itemTag: e.target.value})}>
-                                <option value="Item">Item</option>
-                                <option value="Service">Academic Service</option>
-                            </select>
-                            <label>Item Name</label>
-                            <input type='text' placeholder='enter item name...' value={data.itemName} onChange={(e) => setData({...data, itemName: e.target.value})} />
-                            <label>Item Details</label>
-                            <textarea type='text' placeholder='enter item details...' value={data.itemDetails} onChange={(e) => setData({...data, itemDetails: e.target.value})}/>
-                            <label>Desired Item Price</label>
-                            <input type='number' placeholder='enter item price...' value={data.itemPrice} onChange={(e) => setData({...data, itemPrice: e.target.value})}/>
-                            <label>Item Image</label>
-                            <input
-                                    id="myInput"
-                                    type="file"
-                                    onChange={(e) => handleFileChange('buy', e)}
-                                    accept="image/*"
-                                />
-                            <button type='submit'>Submit</button>
-                        </form>
+    if (formType === 'sell') {
+        return (
+            <div>
+                <div className="page-container">
+                    <div className="greeting">{!!user && (<h2>Hi {user.name}! </h2>)}</div>
+                    <h2>What would you like to list?</h2>
+                    <select value={formType} onChange={(e) => setFormType(e.target.value)}>
+                            <option value="buy">Request</option>
+                            <option value="sell">Offer</option>
+                    </select>
+                    <div className="posts-container">
+                        <div className="post-container">
+                            <h2>Create offer listing:</h2>
+                            <form onSubmit={handleSellPostSubmit}>
+                                <label>Type:</label>
+                                <select value={itemType} onChange={(e) => setItemType(e.target.value)}>
+                                    <option value="item">Item</option>
+                                    <option value="service">Academic Service</option>
+                                </select>
+                                <label>Item Name</label>
+                                <input type='text' placeholder='enter item name...' value={data1.itemName} onChange={(e) => setData1({...data1, itemName: e.target.value})} />
+                                <label>Item Details</label>
+                                <textarea type='text' placeholder='enter item details...' value={data1.itemDetails} onChange={(e) => setData1({...data1, itemDetails: e.target.value})}/>
+                                <label>Item Price</label>
+                                <input type='number' placeholder='enter item price...' value={data1.itemPrice} onChange={(e) => setData1({...data1, itemPrice: e.target.value})}/>
+                                <label>Item Image</label>
+                                <input
+                                        id="myInput"
+                                        type="file"
+                                        onChange={(e) => handleFileChange('sell', e)}
+                                        accept="image/*"
+                                    />
+                                <button type='submit'>Submit</button>
+                            </form>
+                        </div>
                     </div>
-                    <div className="post-container">
-                        <h2>Add Sell post:</h2>
-                        <form onSubmit={handleSellPostSubmit}>
-                            <label>Tag</label>
-                            <select value={data1.itemTag} onChange={(e) => setData1({...data1, itemTag: e.target.value})}>
-                                <option value="Item">Item</option>
-                                <option value="Service">Academic Service</option>
-                            </select>
-                            <label>Item Name</label>
-                            <input type='text' placeholder='enter item name...' value={data1.itemName} onChange={(e) => setData1({...data1, itemName: e.target.value})} />
-                            <label>Item Details</label>
-                            <textarea type='text' placeholder='enter item details...' value={data1.itemDetails} onChange={(e) => setData1({...data1, itemDetails: e.target.value})}/>
-                            <label>Item Price</label>
-                            <input type='number' placeholder='enter item price...' value={data1.itemPrice} onChange={(e) => setData1({...data1, itemPrice: e.target.value})}/>
-                            <label>Item Image</label>
-                            <input
-                                    id="myInput"
-                                    type="file"
-                                    onChange={(e) => handleFileChange('sell', e)}
-                                    accept="image/*"
-                                />
-                            <button type='submit'>Submit</button>
-                        </form>
-                    </div>
-
-
                 </div>
-                {isAdmin && (<div className="admin-container">
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                <div className="page-container">
+                    <div className="greeting">{!!user && (<h2>Hi {user.name}! </h2>)}</div>
+                    <h2>What would you like to list?</h2>
+                    <select value={formType} onChange={(e) => setFormType(e.target.value)}>
+                            <option value="buy">Request</option>
+                            <option value="sell">Offer</option>
+                    </select>
+                    <div className="posts-container">
+                        <div className="post-container">
+                            <h2>Create request:</h2>
+                            <form onSubmit={handleBuyPostSubmit}>
+                                <label>Item Name</label>
+                                <input type='text' placeholder='enter item name...' value={data.itemName} onChange={(e) => setData({...data, itemName: e.target.value})} />
+                                <label>Item Details</label>
+                                <textarea type='text' placeholder='enter item details...' value={data.itemDetails} onChange={(e) => setData({...data, itemDetails: e.target.value})}/>
+                                <label>Desired Item Price</label>
+                                <input type='number' placeholder='enter item price...' value={data.itemPrice} onChange={(e) => setData({...data, itemPrice: e.target.value})}/>
+                                <label>Item Image</label>
+                                <input
+                                        id="myInput"
+                                        type="file"
+                                        onChange={(e) => handleFileChange('buy', e)}
+                                        accept="image/*"
+                                    />
+                                <button type='submit'>Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    {isAdmin && (<div className="admin-container">
                     <h2>Admin Panel</h2><br />
                     <input type='email' placeholder='enter email...' id='userEmail' /> <br />
                     <input type='button' value='Delete User' onClick={(e) => manipulateUser('/deleteUser')} />
@@ -254,8 +272,8 @@ export default function Dashboard() {
                     <input type='button' value='Remove Admin' onClick={(e) => manipulateUser('/removeAdmin')} />
                     <p id='adminResponse'>{adminResponse}</p>
                 </div>) }
-                    
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }

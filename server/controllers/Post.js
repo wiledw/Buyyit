@@ -1,21 +1,22 @@
-const buyPost = require('../models/buyPost')
-const sellPost = require('../models/sellPost')
 const User = require('../models/user')
 const admin = require('../models/admin')
+const request = require('../models/request')
+const offer = require('../models/offer')
+const academic = require('../models/academic')
 
 
-const buyingPost = async (req, res) => {
+const postOffer = async (req, res) => {
     try {
-       const {itemTag, itemName, buyerName, itemDetails, itemPrice, itemImage} = req.body;
+       const {itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
        console.log(itemImage)
        if(!itemName){
             return res.json({
                 error: 'Please fill in item name'
             })
        }
-       if(!buyerName){
+       if(!sellerName){
         return res.json({
-            error: 'Please fill in buyer name'
+            error: 'Please fill in seller name'
         })
        }
        if(!itemDetails){
@@ -31,8 +32,50 @@ const buyingPost = async (req, res) => {
        
        const userEmail = req.user.email;
        console.log(userEmail);
-       const post = await buyPost.create({
-            itemTag,
+       const post = await offer.create({
+            itemName,
+            sellerName,
+            userEmail,
+            itemDetails,
+            itemPrice,
+            itemImage
+       });
+
+       return res.json(post);
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const postRequest = async (req, res) => {
+    try{
+       const {itemName, buyerName, itemDetails, itemPrice, itemImage} = req.body;
+       console.log(itemImage)
+       if(!itemName){
+        return res.json({
+            error: 'Please fill in item name'
+        })
+       }
+       if(!buyerName){
+        return res.json({
+            error: 'Please fill in seller name'
+        })
+       }
+       if(!itemDetails){
+        return res.json({
+            error: 'Please fill in item details'
+        })
+       }
+       if(!itemPrice){
+        return res.json({
+            error: 'Please fill in item price'
+        })
+       }
+       
+       const userEmail = req.user.email;
+       console.log(userEmail);
+       const post = await request.create({
             itemName,
             buyerName,
             userEmail,
@@ -48,9 +91,9 @@ const buyingPost = async (req, res) => {
     }
 }
 
-const sellingPost = async (req, res) => {
+const postAcademic = async (req, res) => {
     try{
-       const {itemTag, itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
+       const {itemName, sellerName, itemDetails, itemPrice, itemImage} = req.body;
        console.log(itemImage)
        if(!itemName){
         return res.json({
@@ -75,8 +118,7 @@ const sellingPost = async (req, res) => {
        
        const userEmail = req.user.email;
        console.log(userEmail);
-       const post = await sellPost.create({
-            itemTag,
+       const post = await academic.create({
             itemName,
             sellerName,
             userEmail,
@@ -91,19 +133,18 @@ const sellingPost = async (req, res) => {
         console.log(error)
     }
 }
+// Fetch offer part
 
-// Fetch buying part
-
-const fetchBuyingPost = async (req, res) => {
+const fetchOffer = async (req, res) => {
     try {
-        const posts = await buyPost.find({});
+        const posts = await offer.find({});
         res.status(200).json(posts);
     } catch (error) {
         console.log(error);
     }
 }
 
-const fetchFilterBuyingPost = async (req, res) => {
+const fetchFilterOffer = async (req, res) => {
     try {
         // Extract query parameters
         const { searchTerm, minPrice, maxPrice } = req.query;
@@ -127,26 +168,26 @@ const fetchFilterBuyingPost = async (req, res) => {
             queryConditions.itemPrice = { ...queryConditions.itemPrice, $lte: Number(maxPrice) };
         }
 
-        const posts = await buyPost.find(queryConditions);
+        const posts = await offer.find(queryConditions);
         res.status(200).json(posts);
     } catch (error) {
-        console.error('Failed to fetch buying posts:', error);
-        res.status(500).json({ message: 'Failed to fetch buying posts due to an error.' });
+        console.error('Failed to fetch offers:', error);
+        res.status(500).json({ message: 'Failed to fetch offers due to an error.' });
     }
 };
 
 // Fetch selling part
 
-const fetchSellingPost = async (req, res) => {
+const fetchRequest = async (req, res) => {
     try {
-        const posts = await sellPost.find({});
+        const posts = await request.find({});
         res.status(200).json(posts);
     } catch (error) {
         console.log(error);
     }
 }
 
-const fetchFilterSellingPost = async (req, res) => {
+const fetchFilterRequest = async (req, res) => {
     try {
         // Extract query parameters
         const { searchTerm, minPrice, maxPrice } = req.query;
@@ -170,11 +211,52 @@ const fetchFilterSellingPost = async (req, res) => {
             queryConditions.itemPrice = { ...queryConditions.itemPrice, $lte: Number(maxPrice) };
         }
 
-        const posts = await sellPost.find(queryConditions);
+        const posts = await request.find(queryConditions);
         res.status(200).json(posts);
     } catch (error) {
-        console.error('Failed to fetch selling posts:', error);
-        res.status(500).json({ message: 'Failed to fetch selling posts due to an error.' });
+        console.error('Failed to fetch requests:', error);
+        res.status(500).json({ message: 'Failed to fetch requests due to an error.' });
+    }
+};
+
+const fetchAcademic = async (req, res) => {
+    try {
+        const posts = await academic.find({});
+        res.status(200).json(posts);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const fetchFilterAcademic = async (req, res) => {
+    try {
+        // Extract query parameters
+        const { searchTerm, minPrice, maxPrice } = req.query;
+
+        // Build a query object to hold your search conditions
+        let queryConditions = {};
+        
+        if (searchTerm) {
+            // Assuming you want to search within the itemName and itemDetails fields
+            queryConditions.$or = [
+                { itemName: { $regex: searchTerm, $options: 'i' } },
+                { itemDetails: { $regex: searchTerm, $options: 'i' } }
+            ];
+        }
+        
+        if (minPrice) {
+            queryConditions.itemPrice = { ...queryConditions.itemPrice, $gte: Number(minPrice) };
+        }
+        
+        if (maxPrice) {
+            queryConditions.itemPrice = { ...queryConditions.itemPrice, $lte: Number(maxPrice) };
+        }
+
+        const posts = await academic.find(queryConditions);
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error('Failed to fetch offers:', error);
+        res.status(500).json({ message: 'Failed to fetch offers due to an error.' });
     }
 };
 
@@ -311,5 +393,4 @@ const removeAdmin = async (req, res) => {
 }
 
 
-
-module.exports = {buyingPost,sellingPost,fetchBuyingPost, fetchFilterBuyingPost, fetchSellingPost, fetchFilterSellingPost, isAdmin, deleteUser, makeAdmin, removeAdmin};
+module.exports = {postOffer,postRequest,postAcademic, fetchOffer, fetchFilterOffer, fetchAcademic, fetchFilterAcademic, fetchRequest, fetchFilterRequest, isAdmin, deleteUser, makeAdmin, removeAdmin};
