@@ -29,7 +29,7 @@ const postOffer = async (req, res) => {
        
        const userEmail = req.user.email;
        console.log(userEmail);
-       const post = await buyPost.create({
+       const post = await offer.create({
             itemName,
             sellerName,
             userEmail,
@@ -135,7 +135,7 @@ const fetchFilterOffer = async (req, res) => {
 
 const fetchRequest = async (req, res) => {
     try {
-        const posts = await sellPost.find({});
+        const posts = await request.find({});
         res.status(200).json(posts);
     } catch (error) {
         console.log(error);
@@ -166,7 +166,7 @@ const fetchFilterRequest = async (req, res) => {
             queryConditions.itemPrice = { ...queryConditions.itemPrice, $lte: Number(maxPrice) };
         }
 
-        const posts = await sellPost.find(queryConditions);
+        const posts = await request.find(queryConditions);
         res.status(200).json(posts);
     } catch (error) {
         console.error('Failed to fetch requests:', error);
