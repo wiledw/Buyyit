@@ -8,7 +8,7 @@ const {postOffer, postRequest, postAcademic, fetchOffer, fetchFilterOffer, fetch
 router.use(
     cors({
         credentials: true,
-        origin: 'http://localhost:5173'
+        origin: 'https://wiledw.github.io/'
     })
 )
 
