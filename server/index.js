@@ -18,7 +18,10 @@ mongoose.connect(process.env.MONGO_URL)
 app.use(express.json({ limit: '2mb' }));
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: '2mb', extended: true }));
-
+var corsOptions = {
+    origin: ['http://localhost:5173', 'https://wiledw.github.io'], // Add your origins here
+  };
+app.use(cors(corsOptions));
 
 app.use('/', require('./routes/authRoutes'))
 app.use((err, req, res, next) => {
