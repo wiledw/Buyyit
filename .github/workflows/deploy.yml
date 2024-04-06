@@ -18,21 +18,22 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-          working-directory: server
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          working-directory: server
-
+        run: |
+          cd server
+          npm install
+          
       - name: Build project
-        run: npm run build
+        run: |
+          cd server
+          npm run build
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
         with:
           name: production-files
-          path: server/
+          path: server/ # Adjust if your build output is in a different subdirectory within server
 
   deploy:
     name: Deploy
@@ -45,10 +46,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: production-files
-          path: server/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: server/
+          publish_dir: ./server # Adjust based on where you've downloaded artifacts and your site's structure
