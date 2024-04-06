@@ -19,7 +19,7 @@ app.use(express.json({ limit: '2mb' }));
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: '2mb', extended: true }));
 var corsOptions = {
-    origin: ['https://wiledw.github.io/buyyit', 'https://wiledw.github.io'], // Your allowed origins
+    origin: ['https://wiledw.github.io'], // Your allowed origins
     credentials: true, // This allows cookies and credentials to be included in the requests
 };
 

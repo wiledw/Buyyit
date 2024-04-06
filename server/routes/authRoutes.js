@@ -8,7 +8,7 @@ const {postOffer, postRequest, postAcademic, fetchOffer, fetchFilterOffer, fetch
 router.use(
     cors({
         credentials: true,
-        origin: 'https://wiledw.github.io/buyyit'
+        origin: 'https://wiledw.github.io'
     })
 )
 
