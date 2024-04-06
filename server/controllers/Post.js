@@ -266,6 +266,39 @@ const fetchFilterAcademic = async (req, res) => {
     }
 };
 
+const deleteRequest = async (req, res) => {
+    try {
+        const { listingID } = req.body;
+        const document = await request.findByIdAndDelete(listingID);
+        return res.json({document});
+    } catch (error) {
+        console.error('Failed to delete listing:', error);
+        res.status(500).json({ message: 'Failed to delete listing due to an error.'});
+    }
+}
+
+const deleteOffer = async (req, res) => {
+    try {
+        const { listingID } = req.body;
+        const document = await offer.findByIdAndDelete(listingID);
+        return res.json({document});
+    } catch (error) {
+        console.error('Failed to delete listing:', error);
+        res.status(500).json({ message: 'Failed to delete listing due to an error.'});
+    }
+}
+
+const deleteAcademic = async (req, res) => {
+    try {
+        const { listingID } = req.body;
+        const document = await academic.findByIdAndDelete(listingID);
+        return res.json({document});
+    } catch (error) {
+        console.error('Failed to delete listing:', error);
+        res.status(500).json({ message: 'Failed to delete listing due to an error.'});
+    }
+}
+
 // used to verify whether user has admin privileges
 const isAdmin = async(req, res) => {
     try {
@@ -274,10 +307,8 @@ const isAdmin = async(req, res) => {
         const target = await admin.findOne({email: user.email});
 
         if(target){
-            console.log('Person is an admin');
             return res.json({isAdmin: true});
         } else {
-            console.log('Person is not an admin');
             return res.json({isAdmin: false});
         }
     } catch (error) {
@@ -404,4 +435,6 @@ const removeAdmin = async (req, res) => {
 }
 
 
-module.exports = {postOffer,postRequest,postAcademic, fetchOffer, fetchFilterOffer, fetchAcademic, fetchFilterAcademic, fetchRequest, fetchFilterRequest, isAdmin, deleteUser, makeAdmin, removeAdmin};
+
+
+module.exports = {postOffer,postRequest,postAcademic, fetchOffer, fetchFilterOffer, fetchAcademic, fetchFilterAcademic, fetchRequest, fetchFilterRequest, deleteRequest, deleteOffer, deleteAcademic, isAdmin, deleteUser, makeAdmin, removeAdmin};

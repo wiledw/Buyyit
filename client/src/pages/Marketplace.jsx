@@ -1,14 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { UserContext } from "../../context/userContext";
 import {toast} from 'react-hot-toast';
 import './Marketplace.css'; 
 
 export default function Marketplace() {
   const [ads, setAds] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [selectedOption, setSelectedOption] = useState('offers');
+  const { user } = useContext(UserContext);
 
   const queries = {
     'offers': 'Offer',
@@ -57,6 +60,49 @@ export default function Marketplace() {
     }
   };
 
+    // Request admin privileges
+    const requestAdmin = async () => {
+
+      try {
+          // Get user token
+          const token = document.cookie.substring(6);
+
+          console.log(user)
+          // Send request to server
+          const response = await axios.get('/requestAdmin', {
+              headers: {
+                  'Authorization': `Bearer ${token}`
+              }
+          });
+
+          // See if user is admin
+          if (response?.data?.isAdmin) {
+              // Make admin components visible
+              console.log('Admin')
+              setIsAdmin(true);
+          }
+
+      } catch (error) {
+          setIsAdmin(false);
+      }
+
+      console.log('Not Admin')
+      return false;
+
+  }
+
+  useEffect(() => {
+    requestAdmin()
+  }, [])
+
+  const deleteListing = async (ad) => {
+    const query = '/delete' + queries[selectedOption];
+    const response = await axios.post(query, {
+      listingID: ad._id
+    });
+    fetchAds()
+  }
+
   return (
     <div className='content-container'>
       <h2>What would you like to browse?</h2>
@@ -96,7 +142,7 @@ export default function Marketplace() {
                   <p>Email: {ad.userEmail}</p>
                   <p>Details: {ad.itemDetails}</p>
                   <p>Price: ${ad.itemPrice}</p>
-                  
+                  {(ad.userEmail == user.email || isAdmin) && <button className='delete-button' onClick={() => {deleteListing(ad)}}>DELETE</button>}
                   {ad.itemImage && <img src={ad.itemImage} alt={ad.itemName} style={{ width: '100px', height: '100px' }} />}
                   </div>
               ))}

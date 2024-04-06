@@ -86,6 +86,13 @@
     border-radius: 5px; /* Slightly rounded corners for the images */
     margin-bottom: 10px; /* Adds space below the image */
   }
+
+  .delete-button {
+    height:20px;
+    font-size:10px;
+    width:40%;
+    padding:2px;
+  }
   
   @media (max-width: 768px) {
     .search-filters input {
